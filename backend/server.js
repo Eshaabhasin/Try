@@ -3,10 +3,10 @@ import cors from "cors";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const app = express();
-const port = 5001;
+const port = process.env.PORT || 5001; // Use dynamic port for Render
 
-// Hardcoded API Key (Replace with your actual key)
-const genAI = new GoogleGenerativeAI("AIzaSyBHBovnMnVte6fOiONYQB64svJ3R8WBNdw");
+// Use environment variables for API keys (Avoid hardcoding!)
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.use(cors());
@@ -26,7 +26,6 @@ app.post("/chat", async (req, res) => {
   }
 
   try {
-    // Generate chatbot response using Gemini
     const result = await model.generateContent(userMessage);
     const response = await result.response;
     const text = response.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to respond.";
