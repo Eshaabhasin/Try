@@ -2,60 +2,37 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 function Features() {
-    return (
-        <div className="min-h-screen w-full flex flex-col items-center justify-center p-10">
-            {/* Container for cards */}
-            <div className="flex flex-wrap justify-center gap-6 w-full max-w-7xl">
-                {/* Card 1 - Financial Learning */}
-                <NavLink to='/financelearning'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">📚 Financial Learning</h3>
-                        <p className="text-gray-400">Master finance with bite-sized lessons and expert insights.</p>
-                    </div>
-                </NavLink>
+  return (
+    <div className="min-h-screen w-full px-8 md:px-16 py-16 text-white flex flex-col items-center">
+      {/* Section Title */}
+      <h2 className="text-5xl font-extrabold mb-16 text-center text-gray-200">
+        🚀 Explore Our Features
+      </h2>
 
-                {/* Card 2 - Expense Tracker */}
-                <NavLink to='/expense'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">💰 Expense Tracker</h3>
-                        <p className="text-gray-400">Track your daily expenses and manage your budget efficiently.</p>
-                    </div>
-                </NavLink>
+      {/* Feature Cards in a Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl w-full">
 
-                {/* Card 3 - Investment Tracker */}
-                <NavLink to='/investment'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">📊 Investment Tracker</h3>
-                        <p className="text-gray-400">Monitor your investments and track portfolio growth.</p>
-                    </div>
-                </NavLink>
-
-                {/* Card 4 - SIP Calculator */}
-                <NavLink to='/sipcalculator'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">📈 SIP Calculator</h3>
-                        <p className="text-gray-400">Calculate potential returns on your SIP investments.</p>
-                    </div>
-                </NavLink>
-
-                {/* Card 5 - EMI Calculator */}
-                <NavLink to='/emicalculator'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">🏡 EMI Calculator</h3>
-                        <p className="text-gray-400">Plan your loan payments with accurate EMI calculations.</p>
-                    </div>
-                </NavLink>
-
-                {/* Card 6 - Community Support */}
-                <NavLink to='/community'>
-                    <div className="bg-[#2A2A2A] border border-[#5A5A5A] rounded-lg shadow-lg p-6 text-white w-72 transition-transform transform hover:scale-105">
-                        <h3 className="text-xl font-semibold mb-2">🤝 Community Support</h3>
-                        <p className="text-gray-400">Connect with others, share insights, and get expert advice.</p>
-                    </div>
-                </NavLink>
+        {/* Feature Card Component */}
+        {[
+          { to: '/financelearning', emoji: '📚', title: 'Financial Learning', desc: 'Master finance with structured lessons and expert insights.' },
+          { to: '/expense', emoji: '💰', title: 'Expense Tracker', desc: 'Monitor expenses and improve your budgeting skills.' },
+          { to: '/investment', emoji: '📊', title: 'Investment Tracker', desc: 'Monitor and analyze your portfolio with real-time insights.' },
+          { to: '/sipcalculator', emoji: '📈', title: 'SIP Calculator', desc: 'Estimate your SIP returns and make smarter investments.' },
+          { to: '/emicalculator', emoji: '🏡', title: 'EMI Calculator', desc: 'Plan your loan repayments with ease.' },
+          { to: '/community', emoji: '🤝', title: 'Community Support', desc: 'Engage, share knowledge, and get expert financial advice.' }
+        ].map((feature, index) => (
+          <NavLink to={feature.to} key={index} className="group">
+            <div className="bg-[#1E1E1E] border border-gray-600 rounded-2xl p-8 shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl hover:scale-[1.05] w-[90%] sm:w-[320px] h-[220px] mx-auto">
+              <span className="text-5xl mb-4">{feature.emoji}</span>
+              <h3 className="text-2xl font-bold">{feature.title}</h3>
+              <p className="text-gray-400 text-lg mt-2">{feature.desc}</p>
             </div>
-        </div>
-    );
+          </NavLink>
+        ))}
+
+      </div>
+    </div>
+  );
 }
 
 export default Features;

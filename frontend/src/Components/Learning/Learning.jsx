@@ -46,7 +46,7 @@ export default function FinanceLearningTracker() {
   };
 
   return (
-    <div className="w-[900px] px-4 py-6 bg-black text-white relative">
+    <div className="w-[900px] px-4 py-6 text-white relative">
       <h1 className="text-3xl font-bold text-center mb-6">📈 Finance Learning Tracker</h1>
 
       {/* Level Selector + FinTalk + Quiz Button */}
@@ -68,18 +68,23 @@ export default function FinanceLearningTracker() {
           className="px-6 py-3 rounded-lg text-lg font-semibold bg-green-500 text-white hover:bg-green-600 transition"
           onClick={() => setChatbotOpen(true)}
         >
-          FinTalk 💬
+          FinTalk 
         </button>
-
+        <button
+  className="px-2 py-3 rounded-lg text-lg font-semibold bg-purple-500 text-white hover:bg-purple-600 transition"
+  onClick={() => navigate("/alllearningpath")} // Navigate to the personalized learning page
+>
+  Personalized Learning 
+</button>
         {/* Quiz Button - Redirects to Quiz Component */}
         <button
           className="px-6 py-3 rounded-lg text-lg font-semibold bg-yellow-500 text-white hover:bg-yellow-600 transition"
           onClick={() => navigate("/finance-quiz")} // Navigate to the quiz page
         >
-          Quiz 🎯
+          Quiz 
         </button>
       </div>
-
+     
       {/* Progress Tracker */}
       <div className="w-full bg-gray-700 rounded-full h-4 mb-6">
         <div
@@ -92,7 +97,7 @@ export default function FinanceLearningTracker() {
       </p>
 
       {/* Learning Videos Section */}
-      <div className="space-y-6">
+      <div className="space-y-6 mt-3">
         {videos[selectedLevel].map((video, index) => (
           <div key={index} className="flex items-center justify-between bg-gray-800 p-4 rounded-lg">
             {/* Video Title */}
@@ -111,7 +116,7 @@ export default function FinanceLearningTracker() {
 
             {/* Mark as Complete Button */}
             <button
-              className={`px-6 py-3 rounded-lg text-lg font-semibold ${
+              className={`px-6 py-3 rounded-lg text-lg font-semibold mt-40 ${
                 completedVideos[selectedLevel]?.[index] ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
               } text-white transition`}
               onClick={() => handleComplete(selectedLevel, index)}

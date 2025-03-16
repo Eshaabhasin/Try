@@ -27,26 +27,6 @@ const questions = [
     answer: "To determine your creditworthiness",
   },
   {
-    question: "What is the recommended emergency fund duration?",
-    options: [
-      "1 month of expenses",
-      "3-6 months of expenses",
-      "1 year of expenses",
-      "No need for an emergency fund",
-    ],
-    answer: "3-6 months of expenses",
-  },
-  {
-    question: "Which financial document shows a company's revenues and expenses?",
-    options: [
-      "Balance Sheet",
-      "Income Statement",
-      "Cash Flow Statement",
-      "Annual Report",
-    ],
-    answer: "Income Statement",
-  },
-  {
     question: "What is compound interest?",
     options: [
       "Interest earned on the principal amount only",
@@ -68,12 +48,7 @@ const questions = [
   },
   {
     question: "What is the term for spreading investments to reduce risk?",
-    options: [
-      "Hedging",
-      "Diversification",
-      "Speculation",
-      "Arbitrage",
-    ],
+    options: ["Hedging", "Diversification", "Speculation", "Arbitrage"],
     answer: "Diversification",
   },
   {
@@ -96,65 +71,147 @@ const questions = [
     ],
     answer: "Something of value owned by a person or company",
   },
+  {
+    question: "What does 'liquidity' refer to in finance?",
+    options: [
+      "The ability to quickly convert assets to cash",
+      "The level of debt a company has",
+      "A company's annual revenue",
+      "The profitability of an investment",
+    ],
+    answer: "The ability to quickly convert assets to cash",
+  },
+  {
+    question: "What is the primary purpose of a budget?",
+    options: [
+      "To increase expenses",
+      "To plan and control income and spending",
+      "To invest in high-risk stocks",
+      "To apply for loans",
+    ],
+    answer: "To plan and control income and spending",
+  },
 ];
 
 const FinancialQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
-  const handleAnswer = (selectedOption) => {
-    if (selectedOption === questions[currentQuestion].answer) {
-      setScore(score + 1);
-    }
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setShowFeedback(true);
+    
+    setTimeout(() => {
+      if (option === questions[currentQuestion].answer) {
+        setScore(score + 1);
+      }
 
-    const nextQuestion = currentQuestion + 1;
-    if (nextQuestion < questions.length) {
-      setCurrentQuestion(nextQuestion);
-    } else {
-      setGameOver(true);
-    }
+      setShowFeedback(false);
+      setSelectedOption(null);
+      
+      const nextQuestion = currentQuestion + 1;
+      if (nextQuestion < questions.length) {
+        setCurrentQuestion(nextQuestion);
+      } else {
+        setGameOver(true);
+      }
+    }, 1000);
   };
 
   const resetQuiz = () => {
     setCurrentQuestion(0);
     setScore(0);
     setGameOver(false);
+    setSelectedOption(null);
+    setShowFeedback(false);
   };
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-black text-white">
-      <div className="w-[500px] p-6 bg-gray-900 rounded-lg shadow-lg text-center">
-        <h1 className="text-3xl font-bold mb-4 text-blue-500">💰 Financial Quiz</h1>
+  const getButtonClass = (option) => {
+    if (!showFeedback || selectedOption !== option) {
+      return "w-[500px] h-[120px] px-6 py-5 bg-gray-800 text-white text-xl font-medium rounded-lg hover:bg-gray-700 transition duration-300 border-2 border-gray-700";
+    }
+    
+    return option === questions[currentQuestion].answer
+      ? "w-full px-6 py-5 bg-green-600 text-white text-xl font-medium rounded-lg border-2 border-green-500 transition duration-300"
+      : "w-full px-6 py-5 bg-red-600 text-white text-xl font-medium rounded-lg border-2 border-red-500 transition duration-300";
+  };
 
-        {gameOver ? (
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">
-              🎉 Your Score: {score} / {questions.length}
-            </h2>
-            <button
-              onClick={resetQuiz}
-              className="px-6 py-3 text-lg font-semibold bg-blue-500 rounded-lg hover:bg-blue-600 transition"
-            >
-              Play Again 🔄
-            </button>
-          </div>
-        ) : (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">{questions[currentQuestion].question}</h2>
-            <div className="space-y-3">
-              {questions[currentQuestion].options.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => handleAnswer(option)}
-                  className="w-full px-4 py-3 bg-gray-800 text-white rounded-lg hover:bg-blue-600 transition"
-                >
-                  {option}
-                </button>
-              ))}
+  const progressPercentage = ((currentQuestion) / questions.length) * 100;
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center p-0 m-0">
+      <div className="w-full p-0 m-0">
+        <div className="p-8 bg-gray-900 rounded-none border-none w-full m-0">
+          <h1 className="text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">💰 Financial IQ Quiz</h1>
+          
+          {!gameOver && (
+            <div className="w-full h-2 bg-gray-800 rounded-full mb-8">
+              <div 
+                className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
             </div>
-          </div>
-        )}
+          )}
+
+          {gameOver ? (
+            <div className="animate-fade-in">
+              <h2 className="text-4xl font-semibold mb-6 text-white">
+                {score > 7 ? "🏆" : score > 5 ? "👍" : "🤔"} Your Score: {score} / {questions.length}
+              </h2>
+              
+              <div className="mb-8">
+                <div className="w-[700px] h-8 bg-gray-800 rounded-full">
+                  <div 
+                    className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-end px-4 transition-all duration-1000"
+                    style={{ width: `${(score/questions.length) * 100}%` }}
+                  >
+                    <span className="text-white font-bold">{Math.round((score/questions.length) * 100)}%</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p className="text-xl mb-8 text-gray-300">
+                {score > 7 
+                  ? "Impressive! You have excellent financial knowledge." 
+                  : score > 5 
+                  ? "Good job! You have a solid understanding of finance basics." 
+                  : "Keep learning! Review the basics of financial literacy."}
+              </p>
+              
+              <button
+                onClick={resetQuiz}
+                className="px-8 py-4 text-xl font-semibold bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg hover:from-purple-600 hover:to-blue-600 transition duration-300 shadow-lg transform hover:-translate-y-1"
+              >
+                Play Again 🔄
+              </button>
+            </div>
+          ) : (
+            <div>
+              <div className="flex justify-between items-center mb-4 text-gray-400">
+                <span>Question {currentQuestion + 1} of {questions.length}</span>
+                <span>Score: {score}</span>
+              </div>
+              
+              <h2 className="text-3xl font-semibold mb-8 text-gray-100">{questions[currentQuestion].question}</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {questions[currentQuestion].options.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => !showFeedback && handleOptionSelect(option)}
+                    disabled={showFeedback}
+                    className={getButtonClass(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
